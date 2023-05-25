@@ -2,11 +2,13 @@
   margin-left: 20px;
   margin-top: 10%;
 }
+
 .loader {
   display: flex;
   flex-direction: row;
   justify-content: center;
 }
+
 .loader .circle {
   width: 16px;
   height: 16px;

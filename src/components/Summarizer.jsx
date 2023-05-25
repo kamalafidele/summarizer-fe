@@ -2,14 +2,14 @@ import { useState } from 'react';
 import axios from 'axios';
 
 import '../styles/summarizer.css';
-import { API_URL } from "../utils/constants";
+import { API_URL } from '../utils/constants';
 import APP_LOGO from '../assets/app-logo.jpg';
 import Loader from './loader';
 
 
 function Summarizer() {
-  const [text, setText] = useState("");
-  const [summary, setSummary] = useState("");
+  const [text, setText] = useState('');
+  const [summary, setSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e) => {
@@ -18,7 +18,7 @@ function Summarizer() {
 
     axios.post(`${API_URL}/summarize`, { text })
      .then(({ data }) => setSummary(data.summary))
-     .catch((e) => setSummary("ChatGPT failed to to summarize the text"))
+     .catch((e) => setSummary('ChatGPT failed to summarize the text'))
      .finally(() => setIsLoading(false));
   }
 
@@ -28,18 +28,18 @@ function Summarizer() {
           <h1 style={{ textAlign: 'center' }}>TV Scripts Summarizer</h1>
           <img src={APP_LOGO} className='img'/>
       </div>
-      <div className="wrapper">
+      <div className='wrapper'>
       <div className='content'>
-        <div className="row">
-        <label htmlFor="script" style={{ display: 'block', marginBottom: 10 }}>TV Script</label>
+        <div className='row'>
+        <label htmlFor='script' style={{ display: 'block', marginBottom: 10 }}>TV Script</label>
         <textarea rows={19} cols={80} placeholder='Enter the script' onChange={(e) => setText(e.target.value)}></textarea>
         </div>
         <div className="row">
           <button onClick={(e) => handleSubmit(e)}>Summarize</button>
         </div>
       </div>
-      <div className="output-container">
-      <label htmlFor="script" style={{ display: 'block', marginBottom: 10 }}>Generated summary</label>
+      <div className='output-container'>
+      <label htmlFor='script' style={{ display: 'block', marginBottom: 10 }}>Generated summary</label>
         <div className='output'>
           <Loader isLoading={isLoading}/>
         { !isLoading && <p>{summary}</p>}
