@@ -10,16 +10,27 @@ import Loader from './loader';
 function Summarizer() {
   const [script, setScript] = useState('');
   const [summary, setSummary] = useState('');
+  const [entities, setEntities] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    axios.post(`${API_URL}/summarize`, { script })
-     .then(({ data }) => setSummary(data.summary))
-     .catch((e) => setSummary('An issue occurred with ChatGPT integration'))
-     .finally(() => setIsLoading(false));
+    if (script != "") {
+      setIsLoading(true);
+      setEntities([]);
+
+      axios.post(`${API_URL}/summarize`, { script })
+       .then(({ data }) => {
+        setSummary(data.summary);
+        setEntities(data.entities)
+       })
+       .catch((e) => {
+        console.log(e);
+        setSummary('An issue occurred with ChatGPT integration')
+       })
+       .finally(() => setIsLoading(false));
+    }
   }
 
   return (
@@ -42,7 +53,10 @@ function Summarizer() {
       <label htmlFor='script' style={{ display: 'block', marginBottom: 10 }}>Generated summary</label>
         <div className='output'>
           <Loader isLoading={isLoading}/>
+        <h3 style={{ display: entities.length > 0 ? 'block' : 'none' }}>Summary: </h3>
         { !isLoading && <p>{summary}</p>}
+        <h3 style={{ display: entities.length > 0 ? 'block' : 'none' }}>Entities: </h3>
+        <p>{entities.map((entity, index) => (<span key={index}>{entity}, </span>))}</p>
         </div>
       </div>
       </div>
