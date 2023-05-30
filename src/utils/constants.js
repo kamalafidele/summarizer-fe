@@ -1,2 +1,2 @@
-export const API_URL = "http://localhost:7000";
+export const API_URL = "https://summarizer-plugin.onrender.com";
 // https://summarizer-plugin.onrender.com
